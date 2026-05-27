@@ -2,6 +2,12 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from supabase import create_client, Client
+from typing import Optional
+from pydantic import BaseModel
+from routes import materiais # Importa a nossa nova pasta de rotas
+from database import supabase # <--- É esta linha que apaga a luz amarela!
+from routes import materiais, turmas  # <--- Adicione o turmas aqui
+
 
 app = FastAPI(title="API do Portal Escolar")
 
@@ -13,12 +19,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# 2. Suas Credenciais Reais do Supabase
-SUPABASE_URL = "https://yskbfyyoopkxcdlnjhev.supabase.co"
-SUPABASE_KEY = "sb_publishable_JvdTCLAHrVCAFIquCWGSnQ_GXN7Mdmh"
-
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+app.include_router(materiais.router)
+app.include_router(turmas.router)  # <--- Não esqueça de incluir o roteador de turmas!
 
 # 3. Modelo de Dados do Login
 class LoginRequest(BaseModel):
