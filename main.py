@@ -14,11 +14,12 @@ app = FastAPI(title="API do Portal Escolar")
 # 1. Configuração de CORS (Essencial para o React conseguir acessar a API)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # Permite acesso de qualquer site (Ideal para testes)
+    allow_origins=["*"], # Libera a porta do React
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["*"], # Libera tudo: GET, POST, DELETE
     allow_headers=["*"],
 )
+
 app.include_router(materiais.router)
 app.include_router(turmas.router)  # <--- Não esqueça de incluir o roteador de turmas!
 
@@ -26,6 +27,7 @@ app.include_router(turmas.router)  # <--- Não esqueça de incluir o roteador de
 class LoginRequest(BaseModel):
     email: str
     senha: str 
+    
 
 # 4. Rota principal de Login
 @app.post("/api/login")

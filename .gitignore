@@ -1,2 +1,13 @@
+# Python
 venv/
 __pycache__/
+*.pyc
+
+# Node / React
+node_modules/
+.next/
+dist/
+
+# Ambientes / Senhas
+.env
+.env.local
